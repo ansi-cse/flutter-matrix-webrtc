@@ -11,8 +11,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_olm: ^1.2.0
-  flutter_openssl_crypto: ^0.1.0
+  # flutter_olm: ^1.2.0
+  # flutter_openssl_crypto: ^0.1.0
   flutter_webrtc: ^0.9.29+hotfix.1
   hive_flutter: ^1.1.0
   intl: ^0.17.0

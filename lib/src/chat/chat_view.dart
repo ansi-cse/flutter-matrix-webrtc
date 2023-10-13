@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:flutter/material.dart' as flutter;
-import 'package:webrtc_flutter_matrix/client_management.dart';
 import 'package:webrtc_flutter_matrix/src/chat/chat_controller.dart';
 import 'package:webrtc_flutter_matrix/src/chat/message.dart';
+import 'package:webrtc_flutter_matrix/src/client_management.dart';
 
 class ChatView extends StatelessWidget {
   final ChatController chatController;
@@ -24,9 +24,9 @@ class ChatView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(chatController.widget.displayname == ''
+          title: Text(chatController.widget.displayName == ''
               ? chatController.widget.room.displayname
-              : chatController.widget.displayname),
+              : chatController.widget.displayName),
           backgroundColor: Colors.transparent,
           actions: [],
         ),

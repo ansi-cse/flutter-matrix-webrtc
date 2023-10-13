@@ -21,7 +21,7 @@ class ChatListController extends State<ChatListPage> {
       MaterialPageRoute(
         builder: (_) => ChatPage(
           room: room,
-          displayname: '',
+          displayName: '',
         ),
       ),
     );

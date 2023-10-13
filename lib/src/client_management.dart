@@ -25,31 +25,33 @@ class ClientManagement {
   }
 
   Future<void> start(
-      String? newToken,
+      {String? newToken,
       String? newRefreshToken,
       String? newDeviceID,
       String? newDeviceName,
       String? newUserID,
-      String? newHomeserver,
-      Function(String token, String refreshToken)? onSync) async {
+      Uri? newHomeserver,
+      bool? isLogin,
+      Function(String token, String refreshToken)? onSync}) async {
     await _lock.synchronized(() async {
       if (!_isInitialized) {
         _client = await _createClient(
-          newToken: newToken,
-          newRefreshToken: newRefreshToken,
-          newDeviceID: newDeviceID,
-          newDeviceName: newDeviceName,
-          newUserID: newUserID,
-          newHomeserver: newHomeserver,
-        );
+            newToken: newToken,
+            newRefreshToken: newRefreshToken,
+            newDeviceID: newDeviceID,
+            newDeviceName: newDeviceName,
+            newUserID: newUserID,
+            newHomeserver: newHomeserver,
+            onSync: onSync,
+            isLogin: isLogin);
         _isInitialized = true;
       }
     });
   }
 
   Future<void> stop() async {
-    await _client.logout();
     _isInitialized = false;
+    await _client.logout();
   }
 
   Future<Client> _createClient(
@@ -58,32 +60,33 @@ class ClientManagement {
       String? newDeviceID,
       String? newDeviceName,
       String? newUserID,
-      String? newHomeserver,
+      Uri? newHomeserver,
+      bool? isLogin,
       Function(String token, String refreshToken)? onSync}) async {
     const String clientName = "Flutter WebRTC";
-
     final client = Client(
       clientName,
-      databaseBuilder: (client) async {
-        await Hive.initFlutter();
-        // ignore: deprecated_member_use
-        final db = FamedlySdkHiveDatabase(client.clientName);
-        await db.open();
-        return db;
-      },
+      // databaseBuilder: (client) async {
+      //   await Hive.initFlutter();
+      //   // ignore: deprecated_member_use
+      //   final db = FamedlySdkHiveDatabase(client.clientName);
+      //   await db.open();
+      //   return db;
+      // },
     );
-
-    if (!client.isLogged()) {
+    if (isLogin == true) {
       //case token expire
-      client.checkHomeserver(Uri.parse(newHomeserver!));
+      client.checkHomeserver(newHomeserver!);
       RefreshResponse ref = await client.refresh(newRefreshToken!);
+      onSync!(ref.accessToken, ref.refreshToken!);
       if (ref.accessToken != "" && ref.refreshToken != "") {
-        client.init(
+        await client.init(
           newToken: ref.accessToken,
           newRefreshToken: ref.refreshToken,
           newDeviceID: newDeviceID,
           newDeviceName: newDeviceName,
           newUserID: newUserID,
+          newHomeserver: newHomeserver,
         );
       }
     } else {
@@ -94,7 +97,7 @@ class ClientManagement {
         newDeviceID: newDeviceID,
         newDeviceName: newDeviceName,
         newUserID: newUserID,
-        newHomeserver: Uri.parse(newHomeserver!),
+        newHomeserver: newHomeserver,
       );
     }
     client.onSync.stream.listen((event) {

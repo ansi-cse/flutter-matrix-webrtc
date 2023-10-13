@@ -7,8 +7,9 @@ import 'package:webrtc_flutter_matrix/src/message_management.dart';
 
 class ChatPage extends StatefulWidget {
   final Room room;
-  final String displayname;
-  const ChatPage({required this.room, Key? key, required this.displayname}) : super(key: key);
+  final String displayName;
+  const ChatPage({required this.room, required this.displayName, Key? key})
+      : super(key: key);
 
   @override
   ChatController createState() => ChatController();
@@ -74,4 +75,3 @@ class ChatController extends State<ChatPage> {
     return ChatView(this);
   }
 }
-

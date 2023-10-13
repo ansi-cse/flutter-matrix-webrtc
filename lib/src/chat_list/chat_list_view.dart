@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
-import 'package:webrtc_flutter_matrix/client_management.dart';
 import 'package:webrtc_flutter_matrix/src/chat_list/chat_list.dart';
+import 'package:webrtc_flutter_matrix/src/client_management.dart';
 
 class ChatListView extends StatelessWidget {
   final ChatListController chatListController;
@@ -10,38 +10,39 @@ class ChatListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<SyncUpdate>(
-        stream: ClientManagement().client.onSync.stream,
-        builder: (context, snapshot) {
-          final dmRooms = ClientManagement()
-              .client
-              .rooms
-              .where((room) => room.isDirectChat);
-          final groupRooms = ClientManagement()
-              .client
-              .rooms
-              .where((room) => !room.isDirectChat);
-          return Column(
-            children: [
-              // const ConnectionStatusHeader(),
-              const TabBar(
-                tabs: [
-                  Tab(text: 'Direct Messages'),
-                  Tab(text: 'Group Chats'),
+    return Scaffold(
+      appBar: AppBar(
+        // Add an AppBar
+        title: const Text('Chat List'), // Set the title of the AppBar
+      ),
+      body: DefaultTabController(
+        length: 1,
+        child: Column(
+          children: [
+            const TabBar(
+              tabs: [
+                Tab(text: 'Direct Messages'),
+              ],
+              labelStyle: TextStyle(fontWeight: FontWeight.bold),
+              labelColor: Colors.black,
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  _buildRoomList(
+                    context,
+                    ClientManagement()
+                        .client
+                        .rooms
+                        .where((room) => room.isDirectChat),
+                  ),
                 ],
-                labelStyle: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    _buildRoomList(context, dmRooms),
-                    _buildRoomList(context, groupRooms),
-                  ],
-                ),
-              ),
-            ],
-          );
-        });
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildRoomList(BuildContext context, Iterable<Room> rooms) {

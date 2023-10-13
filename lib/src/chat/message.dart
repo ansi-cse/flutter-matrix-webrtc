@@ -64,28 +64,16 @@ class MessageBubble extends StatelessWidget {
                       }
                     },
                   ),
-                  PopupMenuButton<String>(
-                    icon: const Icon(Icons
-                        .more_vert), // Use more_vert icon for the popup menu
-                    onSelected: (value) {
-                      if (value == 'delete') {
-                        // Handle the delete action here
-                        MessageManagement.deleteEvent(
-                            roomId: event.roomId!, eventId: event.eventId);
-                      }
-                    },
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<String>>[
-                      const PopupMenuItem<String>(
-                        value: 'delete',
-                        child: ListTile(
-                          leading: Icon(Icons.delete),
-                          title: Text('Delete'),
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
+              ),
+              Text(
+                event.redacted
+                    ? 'Message is redacted'
+                    : event.getDisplayEvent(timeline).body,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Emoji',
+                ),
               ),
               if (isAttachmentMessage &&
                   event.attachmentMimetype.contains("image"))

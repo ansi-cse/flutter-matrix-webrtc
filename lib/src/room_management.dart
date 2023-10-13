@@ -11,6 +11,7 @@ class CreateRoomOpts {
 class RoomManagement {
   static Future<String> _createDirectMessageRoom(
       CreateRoomOpts createRoomOpts) async {
+    Client client = ClientManagement().client;
     String roomId = await ClientManagement().client.createRoom(
           isDirect: true,
           preset: CreateRoomPreset.trustedPrivateChat,
@@ -24,6 +25,7 @@ class RoomManagement {
   }
 
   static Future<String> getOrCreateDirectMessageRoom(String otherUserId) async {
+    Client client = ClientManagement().client;
     final rooms = ClientManagement().client.rooms.where((room) {
       return room.directChatMatrixID == otherUserId;
     }).toList();
