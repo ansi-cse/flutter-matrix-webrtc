@@ -1,0 +1,41 @@
+name: webrtc_flutter_matrix
+description: A new Flutter project.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.5 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_olm: ^1.2.0
+  flutter_openssl_crypto: ^0.1.0
+  flutter_webrtc: ^0.9.29+hotfix.1
+  hive_flutter: ^1.1.0
+  intl: ^0.17.0
+  matrix: ^0.20.1
+  path_provider: ^2.0.15
+  webrtc_interface: ^1.0.13
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  import_sorter: ^4.6.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+# Uncomment and run `flutter pub run flutter_launcher_icons` to generate
+# a new launcher icon from `assets/images/logo.png`.
+#
+#flutter_icons:
+#  android: "launcher_icon"
+#  ios: true
+#  remove_alpha_ios: true
+#  image_path: "assets/images/logo.png"
+#  web:
+#    generate: true
