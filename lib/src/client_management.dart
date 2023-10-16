@@ -66,13 +66,13 @@ class ClientManagement {
     const String clientName = "Flutter WebRTC";
     final client = Client(
       clientName,
-      // databaseBuilder: (client) async {
-      //   await Hive.initFlutter();
-      //   // ignore: deprecated_member_use
-      //   final db = FamedlySdkHiveDatabase(client.clientName);
-      //   await db.open();
-      //   return db;
-      // },
+      databaseBuilder: (client) async {
+        await Hive.initFlutter();
+        // ignore: deprecated_member_use
+        final db = FamedlySdkHiveDatabase(client.clientName);
+        await db.open();
+        return db;
+      },
     );
     if (isLogin == true) {
       //case token expire
